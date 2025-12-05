@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+    container_name: yummi_app
+    volumes:
+      - .:/var/www
+    networks:
+      - yummi_net
+
+  nginx:
+    image: nginx:alpine
+    container_name: yummi_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - yummi_net
+
+  mysql:
+    image: mysql:8.0
+    container_name: yummi_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: yummi_db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - yummi_mysql_data:/var/lib/mysql
+    networks:
+      - yummi_net
+
+networks:
+  yummi_net:
+
+volumes:
+  yummi_mysql_data:
