@@ -16,6 +16,21 @@
             <td>{{ $product->name }}</td>
             <td>{{ $product->price }}</td>
             <td>{{ $product->is_active ? 'Active' : 'Inactive' }}</td>
+            <td>
+                <a href="{{ route('admin.products.edit', $product) }}">Edit</a>
+
+                <form action="{{ route('admin.products.destroy', $product) }}"
+                    method="POST"
+                    style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                            onclick="return confirm('Are you sure you want to delete this product?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+
         </tr>
     @endforeach
 </table>

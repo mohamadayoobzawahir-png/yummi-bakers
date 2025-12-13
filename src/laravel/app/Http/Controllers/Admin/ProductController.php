@@ -39,4 +39,28 @@ class ProductController extends Controller
             ->route('admin.products.index')
             ->with('success', 'Product created successfully!');
     }
+
+    public function edit(Product $product)
+    {
+        return view('admin.products.edit', compact('product'));
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
+
+        $product->update($request->only([
+            'name',
+            'price',
+            'description',
+        ]));
+
+        return redirect()
+            ->route('admin.products.index')
+            ->with('success', 'Product updated successfully');
+    }
 }
