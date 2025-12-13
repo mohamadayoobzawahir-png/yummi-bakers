@@ -21,13 +21,11 @@
 
                 <form action="{{ route('admin.products.destroy', $product) }}"
                     method="POST"
-                    style="display:inline;">
+                    style="display:inline;"
+                    onsubmit="return confirm('Are you sure you want to delete this product?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit"
-                            onclick="return confirm('Are you sure you want to delete this product?')">
-                        Delete
-                    </button>
+                    <button type="submit">Delete</button>
                 </form>
             </td>
 
